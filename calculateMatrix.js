@@ -3,9 +3,9 @@ function Calculatematrix ({day, month, year})  {
   const m = month
   const y = year
  
-  console.log('day:', d)
-  console.log('month:', m)
-  console.log('year:', y)
+  //console.log('day:', d)
+  //console.log('month:', m)
+  //console.log('year:', y)
   
   //console.log(day % 10 )
   const extraNumber1 = (d % 10 + Math.floor(d / 10))
