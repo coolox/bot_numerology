@@ -1,11 +1,11 @@
 const TelegramBot = require('node-telegram-bot-api');
 const token = '6239067337:AAHb7yvjwJJBFo2umdEgzBIi-nulK6RQlhE';
 const bot = new TelegramBot(token, { polling: true });
-const Calculatematrix = require('./calculateMatrix.js') ;
+const response = require('./matrixResponse.js')
 
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
-  bot.sendMessage(chatId, "Добро пожаловать к Боту Нумерологии. Я могу расчитать психоматрицу по дате рождения. Отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
+  bot.sendMessage(chatId, "Привет! Это бот Мяхри Рамазановой - консультанта по статистическому психоанализу. Я могу расчитать психоматрицу по дате рождения. Отправь мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
   bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/main/images/sticker.webp')
 });
 
@@ -15,6 +15,13 @@ bot.on('message', (msg) => {
 
   if (msg.text === '/start') {
     return; // do nothing if the command is /start
+
+  }if (msg.text === '/info') {
+    bot.sendMessage(chatId, `Вы можите связаться со мно по 
+    Telegram: https://t.me/myahri_ram
+    Instagram: https://www.instagram.com/myahri_ram/`);
+    bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/master/images/sticker-info.webp')
+
   } else if (dob.length === 3) {
     // If input is in the format 'dd.mm.yyyy'
     let day = parseInt(dob[0]);
@@ -25,13 +32,7 @@ bot.on('message', (msg) => {
       // If any of the date components are not numbers, send an error message
       bot.sendMessage(chatId, "Неправельный формат даты. Пожалуйста отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
     } else {
-
-      const results = Calculatematrix({ day, month, year });
-      const response = `Дата рождения: ${day}.${month}.${year}
-  ${results.character.join('')}/${results.energy.join('')}/${results.interest.join('')}/${results.helth.join('')}/${results.logic.join('')}/${results.work.join('')}/${results.luck.join('')}/${results.duty.join('')}/${results.memory.join('')}  
-  Число Судьбы: ${results.destiny} Быт: ${results.life} Семья: ${results.family} Цель: ${results.purposefulness} Темперамент: ${results.temperament} Привычки: ${results.habits}
-          `;
-        bot.sendMessage(chatId, response);
+      bot.sendMessage(chatId, response({ day, month, year }));
     }
 
   } else if (dob.length === 3 && dob[1].length > 1 && dob[0].length > 1 && dob[2]=== 4) {
@@ -44,30 +45,9 @@ bot.on('message', (msg) => {
       // If any of the date components are not numbers, send an error message
       bot.sendMessage(chatId, "Неправельный формат даты. Пожалуйста отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
     } else {
-      const results = Calculatematrix({day, month, year});
-      const response = `Дата рождения: ${day}.${month}.${year}
-      
-      Хараетер: ${results.character.join('')},
-      Здоровье: ${results.helth.join('')},
-      Удача: ${results.luck.join('')},
-      Цель: ${results.purposefulness},
-      Энергия: ${results.energy.join('')},
-      Логика: ${results.logic.join('')},
-      Долг: ${results.duty.join('')},
-      Семья: ${results.family},
-      Интерес: ${results.interest.join('')},
-      Труд: ${results.work.join('')},
-      Память: ${results.memory.join('')},
-      Привычки: ${results.habits},
-      Быт: ${results.life},
-      Число Судьбы: ${results.destiny},
-      Темперамент ${results.temperament}
-      `;
-    bot.sendMessage(chatId, response);
+      bot.sendMessage(chatId, response({ day, month, year }));
     }
   } else {
     bot.sendMessage(chatId, "Неправельный формат даты. Пожалуйста отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
   }
 });
-
-
