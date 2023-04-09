@@ -3,10 +3,13 @@ const token = '6239067337:AAHb7yvjwJJBFo2umdEgzBIi-nulK6RQlhE';
 const bot = new TelegramBot(token, { polling: true });
 const response = require('./matrixResponse.js')
 
+
+
+
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, "Привет! Это бот Мяхри Рамазановой - консультанта по статистическому психоанализу. Я могу расчитать психоматрицу по дате рождения. Отправь мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
-  bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/main/images/sticker.webp')
+  bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/main/images/stickerHi.webp')
 });
 
 bot.on('message', (msg) => {
@@ -32,6 +35,7 @@ bot.on('message', (msg) => {
       // If any of the date components are not numbers, send an error message
       bot.sendMessage(chatId, "Неправельный формат даты. Пожалуйста отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
     } else {
+      bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/main/images/stickerCalculating.webp')
       bot.sendMessage(chatId, response({ day, month, year }));
     }
 
@@ -45,6 +49,7 @@ bot.on('message', (msg) => {
       // If any of the date components are not numbers, send an error message
       bot.sendMessage(chatId, "Неправельный формат даты. Пожалуйста отправте мне дату рождения в формате 'ДД.ММ.ГГГГ'.");
     } else {
+      bot.sendSticker(chatId, 'https://raw.githubusercontent.com/coolox/my-sticker/main/images/stickerCalculating.webp')
       bot.sendMessage(chatId, response({ day, month, year }));
     }
   } else {
